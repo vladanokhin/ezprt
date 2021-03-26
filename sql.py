@@ -4,12 +4,9 @@ from pymysql.cursors import DictCursor
 
 class Sql():
 
-    __cursor = None
-    __status_connection = False
-
     def __init__(self, host, user, password, db_name):
         try:
-            connection = pymysql.connect(
+            self.__connection = pymysql.connect(
                 host = host, #'ps-tool.mindysupport.com',
                 user = user, #'admin',
                 password = password, #'Lbvrf2011!!',
@@ -19,26 +16,39 @@ class Sql():
                 cursorclass=DictCursor
             )
 
-            self.__cursor = connection.cursor()
+            self.__cursor = self.__connection.cursor()
             self.__status_connection = True
-
         except:
            self.__cursor = None
            self.__status_connection = False
     
-    def execute(self, command=None):
-        if len(command) < 3 or command == None:
-            # QMassegeBox(error)
-            return False
-        
-    
+    def __del__(self):
+        # Если есть подключения, то  закрываем его
+        if self.__status_connection:
+            self.__connection.close()
+
+    # Гетер статуса подключения
     def getStatusConnection(self):
-        return self.__status_connection
-    
+        return self.__status_connection 
+
+    # Сетер для статуса подключения
     def setStatusConnection(self, status):
         if status == True or status == False:
             self.__status_connection = status
         else:
-            # QMassegeBox(error)
             return False
-        
+    # Метод для отправки запросов
+    def query(self, query):
+
+        if len(query) < 5:
+            return {'error': 'query is not correct'}
+        else:
+            if self.getStatusConnection():
+                try: self.__cursor.execute(query=query)
+                except Exception as e: return {'error': str(e)}
+                
+                return self.__cursor.fetchone() # Попробрувати featchall() 
+    
+    # ПРОТЕСТИРУВАТИ!!!
+    def checkConnection(self):
+        return self.__connection.open()
