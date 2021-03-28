@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from mindy import Mindy
-
+from PyQt5.QtWidgets import QTableWidgetItem
 
 class Ui_mainWindow(object):
 
@@ -36,8 +36,8 @@ class Ui_mainWindow(object):
         self.tableImages.setEditTriggers(QtWidgets.QAbstractItemView.AnyKeyPressed|QtWidgets.QAbstractItemView.DoubleClicked)
         self.tableImages.setDragDropOverwriteMode(True)
         self.tableImages.setObjectName("tableImages")
-        self.tableImages.setColumnCount(5)
-        self.tableImages.setRowCount(0)
+        self.tableImages.setColumnCount(6)
+        self.tableImages.setRowCount(2)
         item = QtWidgets.QTableWidgetItem()
         self.tableImages.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
@@ -54,6 +54,21 @@ class Ui_mainWindow(object):
         self.tableImages.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableImages.setHorizontalHeaderItem(4, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableImages.setHorizontalHeaderItem(5, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableImages.setItem(0, 0, QTableWidgetItem('0'))
+        self.tableImages.setItem(0, 1, QTableWidgetItem('1'))
+        self.tableImages.setItem(0, 2, QTableWidgetItem('2'))
+        self.tableImages.setItem(0, 3, QTableWidgetItem('3'))
+        self.tableImages.setItem(0, 4, QTableWidgetItem('4'))
+        self.tableImages.setItem(0, 5, QTableWidgetItem('5'))
+        self.tableImages.setItem(1, 0, QTableWidgetItem('0'))
+        self.tableImages.setItem(1, 1, QTableWidgetItem('1'))
+        self.tableImages.setItem(1, 2, QTableWidgetItem('2'))
+        self.tableImages.setItem(1, 3, QTableWidgetItem('3'))
+        self.tableImages.setItem(1, 4, QTableWidgetItem('4'))
+        self.tableImages.setItem(1, 5, QTableWidgetItem('5'))
         self.inputLogin = QtWidgets.QLineEdit(self.centralwidget)
         self.inputLogin.setGeometry(QtCore.QRect(10, 20, 186, 31))
         font = QtGui.QFont()
@@ -101,6 +116,12 @@ class Ui_mainWindow(object):
         self.labelStatus.setFont(font)
         self.labelStatus.setStyleSheet("color: red;")
         self.labelStatus.setObjectName("labelStatus")
+
+        self.labelAdderId = QtWidgets.QLabel(self.centralwidget)
+        self.labelAdderId.setFont(font)
+        self.labelAdderId.setText('')
+        self.labelAdderId.setGeometry(QtCore.QRect(580, 360, 431, 31))
+
         self.inputDate = QtWidgets.QDateEdit(self.centralwidget)
         self.inputDate.setGeometry(QtCore.QRect(480, 20, 131, 31))
         font = QtGui.QFont()
@@ -108,10 +129,11 @@ class Ui_mainWindow(object):
         self.inputDate.setFont(font)
         self.inputDate.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.inputDate.setAcceptDrops(False)
-        self.inputDate.setCurrentSection(QtWidgets.QDateTimeEdit.DaySection)
-        self.inputDate.setDisplayFormat('dd-MM-yyyy')
+        # self.inputDate.setCurrentSection(QtWidgets.QDateTimeEdit.DaySection)
+        self.inputDate.setDisplayFormat('yyyy-MM-dd')
         self.inputDate.setDateTime(QtCore.QDateTime.currentDateTime())
         self.inputDate.setObjectName("inputDate")
+        self.inputDate.setSelectedSection(QtWidgets.QDateTimeEdit.DaySection)
         self.buttonGetImages = QtWidgets.QPushButton(self.centralwidget)
         self.buttonGetImages.setEnabled(False)
         self.buttonGetImages.setGeometry(QtCore.QRect(350, 20, 121, 31))
@@ -126,14 +148,14 @@ class Ui_mainWindow(object):
         self.label_3.setObjectName("label_3")
         self.gridLayout.addWidget(self.label_3, 1, 0, 1, 1)
         self.inputQa = QtWidgets.QSpinBox(self.gridLayoutWidget)
-        self.inputQa.setMinimum(1)
+        self.inputQa.setMinimum(0)
         self.inputQa.setMaximum(5)
         self.inputQa.setObjectName("inputQa")
         self.intValid = QtGui.QIntValidator()
         self.gridLayout.addWidget(self.inputQa, 1, 1, 1, 1)
         self.inputPt = QtWidgets.QLineEdit(self.gridLayoutWidget)
         self.inputPt.setObjectName("inputPt")
-        self.inputPt.setValidator(self.intValid)
+        # self.inputPt.setValidator(self.intValid)
         self.gridLayout.addWidget(self.inputPt, 0, 1, 1, 1)
         self.label_2 = QtWidgets.QLabel(self.gridLayoutWidget)
         self.label_2.setObjectName("label_2")
@@ -141,16 +163,11 @@ class Ui_mainWindow(object):
         self.buttonChange = QtWidgets.QPushButton(self.centralwidget)
         self.buttonChange.setGeometry(QtCore.QRect(200, 290, 121, 31))
         self.buttonChange.setObjectName("buttonChange")
-        self.progressBar = QtWidgets.QProgressBar(self.centralwidget)
-        self.progressBar.setGeometry(QtCore.QRect(510, 360, 118, 31))
-        self.progressBar.setProperty("value", 0)
-        self.progressBar.setObjectName("progressBar")
         mainWindow.setCentralWidget(self.centralwidget)
         self.retranslateUi(mainWindow)
         QtCore.QMetaObject.connectSlotsByName(mainWindow)
         mainWindow.setTabOrder(self.inputLogin, self.buttonLogin)
         mainWindow.setTabOrder(self.buttonLogin, self.inputDate)
-        
         self.mindy = Mindy(self)
 
         self.setTextStatusConnection()
@@ -160,7 +177,7 @@ class Ui_mainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         mainWindow.setWindowTitle(_translate("mainWindow", "Eazy Program Time"))
         item = self.tableImages.horizontalHeaderItem(0)
-        item.setText(_translate("mainWindow", "Id"))
+        item.setText(_translate("mainWindow", "ID image"))
         item = self.tableImages.horizontalHeaderItem(1)
         item.setText(_translate("mainWindow", "Image"))
         item = self.tableImages.horizontalHeaderItem(2)
@@ -169,6 +186,9 @@ class Ui_mainWindow(object):
         item.setText(_translate("mainWindow", "Qa"))
         item = self.tableImages.horizontalHeaderItem(4)
         item.setText(_translate("mainWindow", "App"))
+        item = self.tableImages.horizontalHeaderItem(5)
+        item.setText(_translate("mainWindow", "Status"))
+
         self.buttonLogin.setText(_translate("mainWindow", "Ввойти"))
         self.label.setText(_translate("mainWindow", "Status:"))
         self.labelStatus.setText(_translate("mainWindow", "Error contection"))
@@ -188,7 +208,10 @@ class Ui_mainWindow(object):
     
     def addEvent(self):
         self.buttonLogin.clicked.connect(lambda: self.mindy.loginIn(self.inputLogin.text()))
-    
+        self.buttonGetImages.clicked.connect(lambda: self.mindy.getListImages())
+        self.buttonChange.clicked.connect(lambda: self.mindy.changeData())
+        self.tableImages.clicked.connect(lambda: self.mindy.getItems())
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

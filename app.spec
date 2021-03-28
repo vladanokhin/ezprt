@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['app.py'],
-             pathex=['D:\\my\\mindy v1.2'],
+             pathex=['C:\\Users\\Admin\\Desktop\\mindy2\\ezprt'],
              binaries=[],
              datas=[],
              hiddenimports=[],

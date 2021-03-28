@@ -7,7 +7,7 @@ class Sql():
     def __init__(self, host, user, password, db_name):
         try:
             self.__connection = pymysql.connect(
-                host = host, #'ps-tool.mindysupport.com',
+                host = host, 
                 user = user, #'admin',
                 password = password, #'Lbvrf2011!!',
                 db = db_name, #'photoshop_tool',
@@ -47,8 +47,10 @@ class Sql():
                 try: self.__cursor.execute(query=query)
                 except Exception as e: return {'error': str(e)}
                 
-                return self.__cursor.fetchone() # Попробрувати featchall() 
+                return self.__cursor.fetchall() # Попробрувати fetchall() 
     
     # ПРОТЕСТИРУВАТИ!!!
     def checkConnection(self):
-        return self.__connection.open()
+        ress = self.__connection.open()
+        try: print(ress)
+        except Exception as e: print(str(e))
