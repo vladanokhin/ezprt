@@ -1,8 +1,9 @@
-from PyQt5 import QtGui
-import sql
+import datetime
 from string import punctuation
+from PyQt5 import QtGui
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
-from datetime import timedelta
+import sql
+
 
 class Error(QMessageBox):
     def __init__(self):
@@ -93,23 +94,32 @@ class Mindy(sql.Sql):
             print(images)
 
     def changeData(self):
-        q = self.window.inputLogin.text()
-        try:
-            ress = self.query(q)
-            print(str(ress))
-        except Exception as e:
-            print(str(e))
+        time = self.window.inputPt.text()
+
+        t = datetime.datetime.strptime(time, '%H:%M:%S')
+        sec = ((t.hour * 60) + t.minute) * 60 + t.second
+        print(datetime.timedelta(seconds=sec))
+        # q = self.window.inputLogin.text()
+        # try:
+        #     ress = self.query(q)
+        #     print(str(ress))
+        # except Exception as e:
+        #     print(str(e))
 
     def getItems(self):
         row = self.window.tableImages.currentRow()
-        column = self.window.tableImages.currentColumn()
-
+        # column = self.window.tableImages.currentColumn()
         image_id = self.window.tableImages.item(row, 0).text()
-        image_name = self.window.tableImages.item(row, 1).text()
+        # image_name = self.window.tableImages.item(row, 1).text()
         pt = self.window.tableImages.item(row, 2).text()
         qa = self.window.tableImages.item(row, 3).text()
         self.window.inputQa.setValue(int(qa))
         self.window.inputPt.setText(str(pt))
+        
+        self.current_image_id = image_id
+        self.current_pt = pt
+        self.current_qa = qa
+        
     
 
 #{'pt_id': 167384, 'pt_adder_id': 52, 'pt_image_id': 43896, 'pt_pt': datetime.timedelta(seconds=838), 'pt_date': datetime.date(2021, 3, 24), 'pt_time': datetime.timedelta(seconds=34615), 'pt_comment': ' ', 'pt_type_work_id': 1, 'pt_type_work_name': 'Redo', 'pt_current_edit': 1, 'pt_redo_app': 0, 'pt_reapp': 0}

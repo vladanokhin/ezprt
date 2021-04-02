@@ -59,7 +59,7 @@ class Ui_mainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.tableImages.setItem(0, 0, QTableWidgetItem('0'))
         self.tableImages.setItem(0, 1, QTableWidgetItem('1'))
-        self.tableImages.setItem(0, 2, QTableWidgetItem('2'))
+        self.tableImages.setItem(0, 2, QTableWidgetItem('0:30:23'))
         self.tableImages.setItem(0, 3, QTableWidgetItem('3'))
         self.tableImages.setItem(0, 4, QTableWidgetItem('4'))
         self.tableImages.setItem(0, 5, QTableWidgetItem('5'))
