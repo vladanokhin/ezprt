@@ -77,7 +77,7 @@ class Ui_mainWindow(object):
         self.inputLogin.setFont(font)
         self.inputLogin.setFocusPolicy(QtCore.Qt.WheelFocus)
         self.inputLogin.setAutoFillBackground(False)
-        self.inputLogin.setStyleSheet("border-radius: 10px;\n""")
+        # self.inputLogin.setStyleSheet("border-radius: 10px;\n""")
         self.inputLogin.setInputMethodHints(QtCore.Qt.ImhLatinOnly)
         self.inputLogin.setInputMask("")
         self.inputLogin.setText("")

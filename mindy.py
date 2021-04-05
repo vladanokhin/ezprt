@@ -68,7 +68,6 @@ class Mindy(sql.Sql):
             self.window.tableImages.setRowCount(len(images))
             column = 0
             for image in images:
-
                 image_id = image['pt_image_id']
                 info_image = self.query(f'SELECT * FROM image_list WHERE image_list_id = {image_id}')
                 qa  = info_image[0]['image_list_quality_control']
@@ -94,11 +93,18 @@ class Mindy(sql.Sql):
             print(images)
 
     def changeData(self):
-        time = self.window.inputPt.text()
-
-        t = datetime.datetime.strptime(time, '%H:%M:%S')
+        try:
+            time = self.window.inputPt.text()
+            t = datetime.datetime.strptime(time, '%H:%M:%S')
+        except:
+            self.error.showMessage('Не вернный формат времени, PT')
+            return False
         sec = ((t.hour * 60) + t.minute) * 60 + t.second
-        print(datetime.timedelta(seconds=sec))
+        seconds = datetime.timedelta(seconds=sec)
+        if self.current_pt != self.window.inputPt.text():
+            print(f'UPDATE program_time set pt_pt = {seconds} WHERE pt_image_id = {self.current_image_id}')
+        if self.current_qa != self.window.inputQa.text():
+            print(f'UPDATE image_list set image_list_quality_control = {self.window.inputQa.text()} WHERE image_id = {self.current_image_id}')
         # q = self.window.inputLogin.text()
         # try:
         #     ress = self.query(q)
@@ -108,9 +114,7 @@ class Mindy(sql.Sql):
 
     def getItems(self):
         row = self.window.tableImages.currentRow()
-        # column = self.window.tableImages.currentColumn()
         image_id = self.window.tableImages.item(row, 0).text()
-        # image_name = self.window.tableImages.item(row, 1).text()
         pt = self.window.tableImages.item(row, 2).text()
         qa = self.window.tableImages.item(row, 3).text()
         self.window.inputQa.setValue(int(qa))
