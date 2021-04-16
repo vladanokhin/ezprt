@@ -3,8 +3,8 @@
 block_cipher = None
 
 
-a = Analysis(['app.py'],
-             pathex=['D:\\my\\mindy_v.2'],
+a = Analysis(['app.pyw'],
+             pathex=['E:\\ezprt'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -30,4 +30,4 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=True , icon='D:\\my\\mindy_v.2\\i.ico')
+          console=False , icon='E:\\ezprt\\i.ico')

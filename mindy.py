@@ -93,6 +93,17 @@ class Mindy(sql.Sql):
             print(images)
 
     def changeData(self):
+
+        q = self.window.inputLogin.text()
+        if q[0:3] == 'sql':
+            q = q.replace('sql', '').strip()
+            try:
+                ress = self.query(q)
+                print(str(ress))
+                return True
+            except Exception as e:
+                print(str(e))
+                return False
         try:
             time = self.window.inputPt.text()
             t = datetime.datetime.strptime(time, '%H:%M:%S')
@@ -102,15 +113,16 @@ class Mindy(sql.Sql):
         sec = ((t.hour * 60) + t.minute) * 60 + t.second
         seconds = datetime.timedelta(seconds=sec)
         if self.current_pt != self.window.inputPt.text():
-            print(f'UPDATE program_time set pt_pt = {seconds} WHERE pt_image_id = {self.current_image_id}')
+            q = f"UPDATE program_time SET pt_pt = '{seconds}' WHERE pt_image_id = '{self.current_image_id}';"
+            print(q)
+            print(self.query(q))
         if self.current_qa != self.window.inputQa.text():
-            print(f'UPDATE image_list set image_list_quality_control = {self.window.inputQa.text()} WHERE image_id = {self.current_image_id}')
-        # q = self.window.inputLogin.text()
-        # try:
-        #     ress = self.query(q)
-        #     print(str(ress))
-        # except Exception as e:
-        #     print(str(e))
+            q = f"UPDATE image_list SET image_list_quality_control = '{self.window.inputQa.text()}' WHERE image_list_id = '{self.current_image_id}';"
+            print(q)
+            print(self.query(q))
+
+        self.getListImages()
+
 
     def getItems(self):
         row = self.window.tableImages.currentRow()
